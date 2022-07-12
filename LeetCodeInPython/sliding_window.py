@@ -1,5 +1,5 @@
 """
-    Sliding window is an optimization approach
+    Sliding window is an optimization approach(AKA two pointer approach)
     Problem Statement
         Given an array of integers of size N, find maximum sum of K consecutive elements
 """
