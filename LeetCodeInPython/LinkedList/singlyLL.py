@@ -1,5 +1,3 @@
-import ssl
-
 
 class Node:
     def __init__(self,data):
@@ -11,7 +9,6 @@ class Node:
 class LinkedList:
     def __init__(self):
         self.head = None 
-        self.tail = None 
 
     def print_list(self):
         temp = self.head 
@@ -42,6 +39,22 @@ class LinkedList:
         prev.next = target 
         target.next = nextNode
 
+    def deleteNode(self, key):
+        temp = self.head 
+        if not temp:
+            return 
+        if (key == temp.data):
+            self.head = temp.next 
+            temp = None 
+            return 
+
+        while (temp.next.data != key):
+            temp = temp.next 
+        target_node = temp.next 
+        temp.next = target_node.next 
+        target_node.next = None 
+
+
 
 
 
@@ -60,5 +73,7 @@ node3.next = node4
 singly_linked_list.print_list()
 
 singly_linked_list.insertNode(2,4)
+
+singly_linked_list.deleteNode(3)
 singly_linked_list.print_list()
 
