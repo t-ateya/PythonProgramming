@@ -22,9 +22,11 @@ class Item(Resource):
         try:
             item = ItemModel.find_item(name)
         except:
-            return {"message": "An error occurred while finding the item from the ddata base"}
+            return {"message": "An error occurred while finding the item from the data base"}
 
-        return item.json() if item else {"message": "Item not found"}, 404
+        if item:
+            return item.json()
+        return {"message": "Item not found"}, 404
 
     def post(self, name):
 
@@ -33,9 +35,9 @@ class Item(Resource):
                        "message": f" an item with name {name} already exists"}, 400  # When something goes wrong with the request
 
         data = Item.parser.parse_args()
-        item = ItemModel(name, data["price"])
+        item = ItemModel(name, data['price'])
         try:
-            item.insert_item()
+            item.save_to_db()
         except:
             return {"message": "An error occurred inserted the item"}, 500  # Internal server error
 
@@ -44,38 +46,23 @@ class Item(Resource):
     def put(self, name):
 
         data = Item.parser.parse_args()
-        updated_item = ItemModel(name, data["price"])
 
         item = ItemModel.find_item(name)
 
         if not item:
-            try:
-                updated_item.insert_item()
-            except:
-                return {"message": "An error occurred inserting the item"}, 500
+            item = ItemModel.find_item(name)
         else:
-            try:
-                updated_item.update()
-            except:
-                return {"message": "An error occurred updating the itme"}, 500
+            item = ItemModel(name, data['price'])
 
-        return updated_item.json()
+        item.save_to_db()
+
+        return item.json()
 
     def delete(self, name):
+
         item = ItemModel.find_item(name)
-
-        if not item:
-            return {"message": f"the item with name {name} does not exist."}
-
-        connection = sqlite3.connect("data.db")
-        cursor = connection.cursor()
-
-        query = "DELETE FROM items WHERE name=?"
-        cursor.execute(query, (name,))
-
-        connection.commit()
-        connection.close()
-
+        if item:
+            item.delete_from_db()
         return {"message": "Item deleted"}
 
 
