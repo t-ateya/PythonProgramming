@@ -42,7 +42,7 @@ class Item(Resource):
                        "message": f" an item with name {name} already exists"}, 400  # When something goes wrong with the request
 
         data = Item.parser.parse_args()
-        item = ItemModel(name, data['price'], data['store_id'])
+        item = ItemModel(name, data['price'])
         #item = ItemModel(name, **data)
         try:
             item.save_to_db()
