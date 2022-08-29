@@ -8,12 +8,10 @@ from resources.item import Item, ItemList
 from resources.store import Store, StoreList
 
 # JWT === Json Web Token used for auth
-uri = os.getenv("DATABASE_URL")  # or other relevant config var
-if uri and  uri.startswith("postgres://"):
-    uri = uri.replace("postgres://", "postgresql://", 1)
+
 #'sqlite:///data.db'
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(uri)
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URI', 'sqlite:///data.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = "ateya123"
 api = Api(app)
