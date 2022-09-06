@@ -37,8 +37,6 @@ l = [2, 3, 4]
 
     Attribute Getter
 
-"""
-
 
 import operator as op
 
@@ -53,4 +51,4 @@ my_list = [1, 2, 3, 4]
 print(my_list)
 op.setitem(my_list, 1, 100)
 
-
+"""
